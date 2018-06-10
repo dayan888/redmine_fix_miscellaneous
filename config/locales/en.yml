@@ -1,0 +1,5 @@
+# English strings go here for Rails i18n
+en:
+  settings_notes_date_to_issue_list: Add dates of notes on issue list 
+  settings_add_br_for_list: Add line break for list items on issue list
+  

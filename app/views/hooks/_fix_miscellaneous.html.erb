@@ -1,0 +1,53 @@
+# encoding: UTF-8
+
+
+<%= javascript_tag do %>
+
+  var issue_notes = {
+  <% @issues && @issues.each do |issue| %>
+    <% if issue.respond_to?(:last_notes_date) %>
+      "<%= issue.id %>": "<%= issue.last_notes_date %>",
+    <% end %>
+  <% end %>
+  };
+
+  $(function() {
+    <% if Setting.plugin_redmine_fix_miscellaneous['notes_date_to_issue_list'] %>
+      last_notes_date();
+    <% end %>
+    <% if Setting.plugin_redmine_fix_miscellaneous['add_br_for_list'] %>
+      br_list();
+    <% end %>
+  });
+
+  function br_list() {
+    $("td.enumeration, td.list").each(function() {
+      $(this).html("<p>" + $(this).html().split(",").join("</p><p>") + "</p>");
+    });
+  }
+
+  function last_notes_date() {
+    var isSpan = true;
+    var last_notes = $("td.last_notes span");
+    if (!last_notes[0]) {
+      isSpan = false;
+      last_notes = $("td.last_notes div");
+    }
+    if (last_notes[0]) {
+      last_notes.each(function() {
+        var prev = $(this).parent().parent().prev();
+        if (!prev.find("td.id")[0]) {
+          prev = prev.prev();
+        }
+        var addText = " (" + issue_notes[prev.find("td.id").text()].substr(0,19).split("-").join("/") + ")";
+        if (isSpan) {
+          $(this).first("span").html($(this).first("span").html() + addText);
+        }
+        else {
+          $(this).first("p").prepend("<p>" + addText + "</p>");
+        }
+      });
+    }
+  }
+
+<% end %>

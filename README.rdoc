@@ -1,0 +1,17 @@
+= redmine_fix_miscellaneous plug-in
+
+This is a redmine plugin not adding new functions but is just collection of small changes.
+Currently supporting:
+- Add dates of notes on issue list 
+- Add line break for list items on issue list
+
+You might want to add small changes to redmine. Redmine has a special function called hook to change its original behaviour.
+You can use this plugin as a sample for this purpose.
+
+== Installation
+
+* Clone into your plugins folder: <code>git clone https://github.com/dayan888/redmine_fix_miscellaneous.git</code>
+* Run <code>bundle install</code>
+* Run <code>bundle exec rake redmine:plugins:migrate RAILS_ENV=production</code>
+* Restart Redmine
+
